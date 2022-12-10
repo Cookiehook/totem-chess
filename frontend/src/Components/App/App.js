@@ -236,7 +236,7 @@ class App extends React.Component {
         // console.log("RENDER: App", this.state)
         return (
             <>
-                <h1>base-chess</h1>
+                <h1>totem-chess</h1>
                 <div className="container">
                     <div className="BoardGroup">
                     <CaptureRow capturedPieces={this.state.playerColour === "white" ? this.state.blackCaptures : this.state.whiteCaptures}/>

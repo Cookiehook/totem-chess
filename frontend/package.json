@@ -12,11 +12,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "env-cmd -f .env.dev react-scripts start",
-    "deploy": "env-cmd -f .env.test react-scripts build && aws s3 sync build/ s3://base-chess-test.theftofaduck.com",
-    "destroy": "aws s3 rm s3://base-chess-test.theftofaduck.com --recursive",
-    "deploy:prod": "env-cmd -f .env.prod react-scripts build && aws s3 sync build/ s3://base-chess.theftofaduck.com",
-    "destroy:prod": "aws s3 rm s3://base-chess.theftofaduck.com --recursive"
+    "start": "env-cmd -f .env.local react-scripts start",
+    "deploy": "env-cmd -f .env.test react-scripts build && aws s3 sync build/ s3://totem-chess.test.cookiehook.com",
+    "destroy": "aws s3 rm s3://totem-chess.test.cookiehook.com --recursive",
+    "deploy:prod": "env-cmd -f .env.prod react-scripts build && aws s3 sync build/ s3://totem-chess.cookiehook.com",
+    "destroy:prod": "aws s3 rm s3://totem-chess.cookiehook.com --recursive"
   },
   "eslintConfig": {
     "extends": [

@@ -1,4 +1,4 @@
-const appName = "base-chess"
+const appName = "totem-chess"
 const stage = process.env.STAGE_NAME || "dev"
 
 module.exports.appName = appName

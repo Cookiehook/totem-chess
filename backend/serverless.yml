@@ -1,9 +1,9 @@
 # For full config options, check the docs:
 #    docs.serverless.com
 
-service: base-chess
+service: totem-chess
 #app: ${self:service}
-#org: theftofaduck
+#org: cookiehook
 
 frameworkVersion: '3'
 
@@ -11,7 +11,7 @@ provider:
   name: aws
   runtime: nodejs14.x
   region: eu-west-2
-  stage: dev
+  stage: test
 
   logRetentionInDays: 7
   logs:
@@ -49,7 +49,7 @@ functions:
           cors:
             origins:
               - ${self:custom.allowedCorsOrigins.${self:custom.stage}}
-              - ${self:custom.allowedCorsOrigins.dev}
+              - ${self:custom.allowedCorsOrigins.local}
 
   postStartPrivateGame:
     handler: src/endpoints/postStartPrivateGame.lambdaHandler
@@ -60,7 +60,7 @@ functions:
           cors:
             origins:
               - ${self:custom.allowedCorsOrigins.${self:custom.stage}}
-              - ${self:custom.allowedCorsOrigins.dev}
+              - ${self:custom.allowedCorsOrigins.local}
 
   postJoinPrivateGame:
     handler: src/endpoints/postJoinPrivateGame.lambdaHandler
@@ -71,7 +71,7 @@ functions:
           cors:
             origins:
               - ${self:custom.allowedCorsOrigins.${self:custom.stage}}
-              - ${self:custom.allowedCorsOrigins.dev}
+              - ${self:custom.allowedCorsOrigins.local}
           request:
             parameters:
               paths:
@@ -86,7 +86,7 @@ functions:
           cors:
             origins:
               - ${self:custom.allowedCorsOrigins.${self:custom.stage}}
-              - ${self:custom.allowedCorsOrigins.dev}
+              - ${self:custom.allowedCorsOrigins.local}
           request:
             parameters:
               paths:
@@ -101,7 +101,7 @@ functions:
           cors:
             origins:
               - ${self:custom.allowedCorsOrigins.${self:custom.stage}}
-              - ${self:custom.allowedCorsOrigins.dev}
+              - ${self:custom.allowedCorsOrigins.local}
           request:
             parameters:
               paths:
@@ -158,19 +158,22 @@ plugins:
 custom:
   stage: ${opt:stage, self:custom.stage}
   allowedCorsOrigins:
-    dev: http://localhost:3000
-    test: http://${self:service}-test.theftofaduck.com
-    prod: http://${self:service}.theftofaduck.com
+    local: http://localhost:3000
+    test: http://${self:service}.test.cookiehook.com
+    prod: http://${self:service}.cookiehook.com
 
-  domains: # TODO - Make these service.api.domain, not service-api.domain
-    dev: ${self:service}-api-dev.theftofaduck.com
-    test: ${self:service}-api-test.theftofaduck.com
-    prod: ${self:service}-api-prod.theftofaduck.com
+  domains:
+    test: ${self:service}.api.test.cookiehook.com
+    prod: ${self:service}.api.cookiehook.com
+  
+  certificates:
+    test: '*.api.test.cookiehook.com'
+    prod: '*.api.cookiehook.com'
 
   customDomain:
     domainName: ${self:custom.domains.${self:custom.stage}}
     stage: ${self:custom.stage}
-    certificateName : '*.theftofaduck.com'
+    certificateName : ${self:custom.certificates.${self:custom.stage}}
     createRoute53Record: true
     endpointType: regional
     autoDomain: true
